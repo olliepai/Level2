@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -26,12 +27,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font textFont;
 
-	SpaceMan spaceMan = new SpaceMan(250, 700, 50, 50);
+	SpaceMan spaceMan = new SpaceMan(250, 500, 39, 60);
 
 	static int arrowCase = 0;
 
 	ObjectManager om = new ObjectManager();
-	
+
 	public static BufferedImage spaceManlmg;
 
 	// CONSTRUCTOR
@@ -44,12 +45,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		om.addObject(spaceMan);
 
 		try {
-			spaceManlmg = ImageIO.read(this.getClass().getResourceAsStream("spaceMan.png"));
-//			//rocketlmg = ImageIO.read(this.getClass().getResourceAsStream("rocket.png"));
-//			//bulletlmg = ImageIO.read(this.getClass().getResourceAsStream("bullet.png"));
-//			//spacelmg = ImageIO.read(this.getClass().getResourceAsStream("space.png"));
+			spaceManlmg = ImageIO.read(this.getClass().getResourceAsStream("spaceMan1.png"));
+			// //rocketlmg =
+			// ImageIO.read(this.getClass().getResourceAsStream("rocket.png"));
+			// //bulletlmg =
+			// ImageIO.read(this.getClass().getResourceAsStream("bullet.png"));
+			// //spacelmg = ImageIO.read(this.getClass().getResourceAsStream("space.png"));
 		}
-//
+		//
 		catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -66,6 +69,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (currentState == END_STATE) {
 			updateEndState();
 		}
+		
+		spaceMan.update();
 	}
 
 	public void startGame() {
@@ -107,7 +112,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			//om.addObject(new Projectile(spaceMan.x + 20, spaceMan.y, 10, 10));
+			spaceMan.jump();
+			// om.addObject(new Projectile(spaceMan.x + 20, spaceMan.y, 10, 10));
 		}
 	}
 
@@ -120,18 +126,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			spaceMan.left = false;
 		}
-	}
+	}	
 
 	void updateMenuState() {
 
 	}
 
 	void updateGameState() {
-		//om.manageEnemies();
+		// om.manageEnemies();
 
 		om.update();
 
-		//om.checkCollision();
+		// om.checkCollision();
 
 		if (spaceMan.isAlive == false) {
 			currentState = END_STATE;
@@ -153,14 +159,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void drawMenuState(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, AsteroidJump.width, AsteroidJump.height);
-	
-	
+
 		for (int i = 0; i < 60; i++) {
-			g.setColor(Color.WHITE);
-			int x = new Random().nextInt(AsteroidJump.width);
-			int y = new Random().nextInt(AsteroidJump.height);
-			g.fillOval(x, y, 5, 5);
+			if (i % 5 == 0) {
+				g.setColor(Color.WHITE);
+				int x = new Random().nextInt(AsteroidJump.width);
+				int y = new Random().nextInt(AsteroidJump.height);
+				g.fillOval(x, y, 5, 5);
+			}
 		}
+
 		g.setColor(Color.YELLOW);
 		g.setFont(titleFont);
 		g.drawString("ASTEROID JUMP", 100, 200);
@@ -172,13 +180,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void drawGameState(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, AsteroidJump.width, AsteroidJump.height);
-	
-	
+
 		for (int i = 0; i < 60; i++) {
-			g.setColor(Color.WHITE);
-			int x = new Random().nextInt(AsteroidJump.width);
-			int y = new Random().nextInt(AsteroidJump.height);
-			g.fillOval(x, y, 5, 5);
+			if (i % 5 == 0) {
+				g.setColor(Color.WHITE);
+				int x = new Random().nextInt(AsteroidJump.width);
+				int y = new Random().nextInt(AsteroidJump.height);
+				g.fillOval(x, y, 5, 5);
+			}
 		}
 
 		om.draw(g);
@@ -187,13 +196,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void drawEndState(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, AsteroidJump.width, AsteroidJump.height);
-	
-	
+
 		for (int i = 0; i < 60; i++) {
-			g.setColor(Color.WHITE);
-			int x = new Random().nextInt(AsteroidJump.width);
-			int y = new Random().nextInt(AsteroidJump.height);
-			g.fillOval(x, y, 5, 5);
+			if (i % 5 == 0) {
+				g.setColor(Color.WHITE);
+				int x = new Random().nextInt(AsteroidJump.width);
+				int y = new Random().nextInt(AsteroidJump.height);
+				g.fillOval(x, y, 5, 5);
+			}
 		}
 
 		g.setColor(Color.RED);

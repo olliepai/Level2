@@ -33,6 +33,7 @@ public class AsteroidJump {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		gamePanel.startGame();
+		
 	}
 	
 }
