@@ -3,7 +3,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class ObjectManager {
-	ArrayList<GameObject> objects;
+	ArrayList<Asteroid> asteroidObjects;
+	SpaceMan spaceMan;
 
 	private int score = 0;
 
@@ -11,66 +12,63 @@ public class ObjectManager {
 	int enemySpawnTime = 200;
 
 	public ObjectManager() {
-		objects = new ArrayList<GameObject>();
+		asteroidObjects = new ArrayList<Asteroid>();
 	}
 
-	public void addObject(GameObject o) {
-		objects.add(o);
+	public void addObject(Asteroid o) {
+		asteroidObjects.add(o);
+	}
+
+	void setSpaceMan(SpaceMan spaceMan) {
+		this.spaceMan = spaceMan;
 	}
 
 	public void update() {
-		for (int i = 0; i < objects.size(); i++) {
-			GameObject o = objects.get(i);
+		for (int i = 0; i < asteroidObjects.size(); i++) {
+			GameObject o = asteroidObjects.get(i);
 			o.update();
 		}
+
+		spaceMan.update();
 
 		purgeObjects();
 	}
 
 	public void draw(Graphics g) {
-		for (int i = 0; i < objects.size(); i++) {
-			GameObject o = objects.get(i);
+		for (int i = 0; i < asteroidObjects.size(); i++) {
+			GameObject o = asteroidObjects.get(i);
 			o.draw(g);
 		}
+
+		spaceMan.draw(g);
 	}
 
 	private void purgeObjects() {
-		for (int i = 0; i < objects.size(); i++) {
-			if (!objects.get(i).isAlive) {
-				objects.remove(i);
+		for (int i = 0; i < asteroidObjects.size(); i++) {
+			if (!asteroidObjects.get(i).isAlive) {
+				asteroidObjects.remove(i);
 			}
 		}
 	}
 
-//	public void manageEnemies() {
-//		if (System.currentTimeMillis() - enemyTimer >= enemySpawnTime) {
-//			addObject(new Alien(new Random().nextInt(500), 0, 50, 50));
-//			enemyTimer = System.currentTimeMillis();
-//		}
-//	}
-//
-//	public void checkCollision() {
-//		for (int i = 0; i < objects.size(); i++) {
-//			for (int j = i + 1; j < objects.size(); j++) {
-//				GameObject o1 = objects.get(i);
-//				GameObject o2 = objects.get(j);
-//
-//				if (o1.collisionBox.intersects(o2.collisionBox)) {
-//					if ((o1 instanceof Alien && o2 instanceof Projectile)
-//							|| (o2 instanceof Alien && o1 instanceof Projectile)) {
-//						score++;
-//						System.out.println(score);
-//						o1.isAlive = false;
-//						o2.isAlive = false;
-//					} else if ((o1 instanceof Alien && o2 instanceof Rocketship)
-//							|| (o2 instanceof Alien && o1 instanceof Rocketship)) {
-//						o1.isAlive = false;
-//						o2.isAlive = false;
-//					}
-//				}
-//			}
-//		}
-//	}
+	// public void manageEnemies() {
+	// if (System.currentTimeMillis() - enemyTimer >= enemySpawnTime) {
+	// addObject(new Alien(new Random().nextInt(500), 0, 50, 50));
+	// enemyTimer = System.currentTimeMillis();
+	// }
+	// }
+	//
+	public void checkCollision() {
+		
+		for (int i = 0; i < asteroidObjects.size(); i++) {
+			Asteroid o1 = asteroidObjects.get(i);
+
+			if (o1.collisionBox.intersects(spaceMan.collisionBox)) {
+				spaceMan.setCollisionObject(o1);
+			}
+
+		}
+	}
 
 	public int getScore() {
 		return score;
@@ -81,6 +79,6 @@ public class ObjectManager {
 	}
 
 	public void reset() {
-		objects.clear();
+		asteroidObjects.clear();
 	}
 }

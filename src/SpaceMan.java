@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -8,11 +9,15 @@ public class SpaceMan extends GameObject {
 	boolean right = false;
 	boolean left = false;
 	
-	boolean isJumping = false;
-	int yVelocity = 20;
-	int gravity = 1;
+	boolean canJump;
+	
+	double yVelocity = 0;
+	double gravity = 0.08;
+	double newY = 0;
 	
 	private int yLimit = 500;
+	
+	Asteroid asteroid;
 
 	// CONSTRUCTOR
 	SpaceMan(int x, int y, int width, int height) {
@@ -24,6 +29,12 @@ public class SpaceMan extends GameObject {
 	// METHODS
 	void update() {
 		super.update();
+		
+		
+		
+	
+			
+		
 
 		if (right) {
 			x += 5;
@@ -32,28 +43,34 @@ public class SpaceMan extends GameObject {
 			x -= 5;
 		}
 		
-		yVelocity += gravity;
-		y += yVelocity;
-		
-		if(y >= yLimit + 1){
-			y = yLimit+ 1;
+		if (asteroid != null && collisionBox.intersects(asteroid.collisionBox) ) {
+			canJump = true;
+			newY = asteroid.y - height;
 			yVelocity = 0;
-			isJumping = true;
+			gravity = 0;
 		}
+		else {
+			gravity = 0.08;
+			yVelocity += gravity;
+			newY += yVelocity;
+		}
+		
+		collisionBox.setBounds(x, (int) newY, width, height);
 	}
 
 	void draw(Graphics g) {
-		g.drawImage(GamePanel.spaceManlmg, x, y, width, height, null);
+		g.drawImage(GamePanel.spaceManlmg, x, (int) newY, width, height, null);
+	}
+		
+	public void jump(){
+		if (canJump == true) {
+			System.out.println("jumping");
+			yVelocity = -2;
+			canJump = false;
+		}
 	}
 	
-	
-	
-	public void jump(){
-		if (isJumping == true) {
-			yVelocity -= gravity;
-			y -= yVelocity;
-		}
-			
-			//canJump = false;
+	void setCollisionObject(Asteroid asteroid) {
+		this.asteroid = asteroid;
 	}
 }

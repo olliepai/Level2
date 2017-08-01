@@ -27,13 +27,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font textFont;
 
-	SpaceMan spaceMan = new SpaceMan(250, 500, 39, 60);
+	SpaceMan spaceMan = new SpaceMan(250, 50, 39, 60);
+	Asteroid asteroid = new Asteroid(250, 300, 150, 70);
 
 	static int arrowCase = 0;
 
 	ObjectManager om = new ObjectManager();
 
 	public static BufferedImage spaceManlmg;
+	public static BufferedImage asteroidlmg;
 
 	// CONSTRUCTOR
 	GamePanel() {
@@ -42,17 +44,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		titleFont = new Font("FUTURA", Font.PLAIN, 48);
 		textFont = new Font("Monaco", Font.PLAIN, 24);
 
-		om.addObject(spaceMan);
+		om.setSpaceMan(spaceMan);
+		om.addObject(asteroid);
 
 		try {
 			spaceManlmg = ImageIO.read(this.getClass().getResourceAsStream("spaceMan1.png"));
-			// //rocketlmg =
-			// ImageIO.read(this.getClass().getResourceAsStream("rocket.png"));
-			// //bulletlmg =
-			// ImageIO.read(this.getClass().getResourceAsStream("bullet.png"));
-			// //spacelmg = ImageIO.read(this.getClass().getResourceAsStream("space.png"));
+			asteroidlmg = ImageIO.read(this.getClass().getResourceAsStream("asteroid.png"));
 		}
-		//
+	
 		catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -69,8 +68,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (currentState == END_STATE) {
 			updateEndState();
 		}
-		
-		spaceMan.update();
 	}
 
 	public void startGame() {
@@ -112,8 +109,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			
 			spaceMan.jump();
-			// om.addObject(new Projectile(spaceMan.x + 20, spaceMan.y, 10, 10));
+			// om.addObject(new Projectile(spaceMan.x + 20, spaceMan.y, 10,
+			// 10));
 		}
 	}
 
@@ -126,7 +125,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			spaceMan.left = false;
 		}
-	}	
+	}
 
 	void updateMenuState() {
 
@@ -137,7 +136,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		om.update();
 
-		// om.checkCollision();
+		om.checkCollision();
 
 		if (spaceMan.isAlive == false) {
 			currentState = END_STATE;
@@ -146,7 +145,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 			SpaceMan spaceMan = new SpaceMan(250, 700, 50, 50);
 
-			om.addObject(spaceMan);
+			om.setSpaceMan(spaceMan);
 		}
 
 		om.getScore();
