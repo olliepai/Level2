@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,7 +19,7 @@ public class Asteroid extends GameObject {
 	void update() {
 		super.update();
 		
-		collisionBox.setBounds(x, y, width, height);
+		collisionBox.setBounds(x + 10, y + 10, width - 20, height - 10);
 
 	}
 

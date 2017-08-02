@@ -28,7 +28,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font textFont;
 
 	SpaceMan spaceMan = new SpaceMan(250, 50, 39, 60);
-	Asteroid asteroid = new Asteroid(250, 300, 150, 70);
+	Asteroid asteroid = new Asteroid(250, 300, 175, 50);
+	Asteroid asteroid2 = new Asteroid(100, 700, 175, 50);
 
 	static int arrowCase = 0;
 
@@ -46,10 +47,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		om.setSpaceMan(spaceMan);
 		om.addObject(asteroid);
+		om.addObject(asteroid2);
 
 		try {
 			spaceManlmg = ImageIO.read(this.getClass().getResourceAsStream("spaceMan1.png"));
-			asteroidlmg = ImageIO.read(this.getClass().getResourceAsStream("asteroid.png"));
+			asteroidlmg = ImageIO.read(this.getClass().getResourceAsStream("8bitast.png"));
 		}
 	
 		catch (IOException e) {
@@ -109,10 +111,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			
 			spaceMan.jump();
-			// om.addObject(new Projectile(spaceMan.x + 20, spaceMan.y, 10,
-			// 10));
 		}
 	}
 
