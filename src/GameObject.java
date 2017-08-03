@@ -26,7 +26,7 @@ public class GameObject {
 		
 	}
 
-	void draw(Graphics g) {
+	void draw(Graphics g, int xOffset, int yOffset) {
 
 	}
 }

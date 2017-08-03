@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 public class SpaceMan extends GameObject {
 	// MEMBER VARIABLES
@@ -11,6 +12,8 @@ public class SpaceMan extends GameObject {
 
 	boolean canJump;
 	boolean canMove;
+	boolean isJumping;
+	boolean isMoving;
 
 	double yVelocity = 0;
 	double gravity = 0.08;
@@ -23,6 +26,7 @@ public class SpaceMan extends GameObject {
 	// CONSTRUCTOR
 	SpaceMan(int x, int y, int width, int height) {
 		super(x, y, width, height);
+		newY = y;
 
 		speed = 5;
 	}
@@ -30,11 +34,11 @@ public class SpaceMan extends GameObject {
 	// METHODS
 	void update() {
 		super.update();
-
-		if (right) {
+		
+		if (right && isMoving == false) {
 			x += 5;
 		}
-		if (left) {
+		if (left && isMoving == false) {
 			x -= 5;
 		}
 
@@ -55,9 +59,7 @@ public class SpaceMan extends GameObject {
 			}
 			if (newY + height > ay && x + width > ax && x < ax + aw && newY + height < ay + ah / 2) {
 				newY = ay - height;
-				if (ay == 700) {
-					canMove = true;
-				}
+				canMove = true;
 			}
 
 			if (newY < ay + ah && x + width > ax && x < ax + aw && newY + height > ay + ah / 2) {
@@ -69,6 +71,7 @@ public class SpaceMan extends GameObject {
 		} 
 		
 		else {
+			canMove = false;
 			canJump = true;
 			gravity = 0.08;
 			yVelocity += gravity;
@@ -78,30 +81,16 @@ public class SpaceMan extends GameObject {
 		collisionBox.setBounds(x, (int) newY, width, height);
 	}
 
-	void draw(Graphics g) {
-		g.drawImage(GamePanel.spaceManlmg, x, (int) newY, width, height, null);
+	void draw(Graphics g, int xOffset, int yOffset) {
+		g.drawImage(GamePanel.spaceManlmg, x - xOffset, (int) newY - yOffset, width, height, null);
 	}
 
 	public void jump() {
 		if (canJump == true) {
+			isJumping = true;
 			System.out.println("jumping");
 			yVelocity = -2;
 			canJump = false;
-		}
-	}
-	
-	void moveAsteroid() {
-		int ax = asteroid.collisionBox.x;
-		int ay = asteroid.collisionBox.y;
-		int aw = asteroid.collisionBox.width;
-		int ah = asteroid.collisionBox.height;
-
-		
-		if (canMove == true) {
-			ay -= 2;
-			if (ay == 250) {
-				canMove = false;
-			}
 		}
 	}
 

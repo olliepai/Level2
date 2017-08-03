@@ -27,9 +27,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font textFont;
 
-	SpaceMan spaceMan = new SpaceMan(250, 50, 39, 60);
-	Asteroid asteroid = new Asteroid(250, 300, 175, 50);
-	Asteroid asteroid2 = new Asteroid(100, 700, 175, 50);
+	SpaceMan spaceMan;
 
 	static int arrowCase = 0;
 
@@ -37,6 +35,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	public static BufferedImage spaceManlmg;
 	public static BufferedImage asteroidlmg;
+	
+	Camera camera = new Camera();
 
 	// CONSTRUCTOR
 	GamePanel() {
@@ -44,11 +44,22 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		titleFont = new Font("FUTURA", Font.PLAIN, 48);
 		textFont = new Font("Monaco", Font.PLAIN, 24);
+		
+		int randX2 = 0;
+		
+		for (int i = 1; i < 50; i++) {
+			int randX = new Random().nextInt(450);
+			if (i == 1) {
+				randX2 = randX;
+			}
+			
+			om.addObject(new Asteroid(randX, i * 200, 175, 50));
+		}
+		
+		spaceMan = new SpaceMan(randX2 + 68, 150, 39, 60);
 
 		om.setSpaceMan(spaceMan);
-		om.addObject(asteroid);
-		om.addObject(asteroid2);
-
+		
 		try {
 			spaceManlmg = ImageIO.read(this.getClass().getResourceAsStream("spaceMan1.png"));
 			asteroidlmg = ImageIO.read(this.getClass().getResourceAsStream("8bitast.png"));
@@ -188,7 +199,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 		}
 
-		om.draw(g);
+		om.draw(g, camera);
 	}
 
 	void drawEndState(Graphics g) {

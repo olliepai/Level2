@@ -34,13 +34,8 @@ public class ObjectManager {
 		purgeObjects();
 	}
 
-	public void draw(Graphics g) {
-		for (int i = 0; i < asteroidObjects.size(); i++) {
-			GameObject o = asteroidObjects.get(i);
-			o.draw(g);
-		}
-
-		spaceMan.draw(g);
+	public void draw(Graphics g, Camera camera) {
+			camera.draw(g, asteroidObjects, spaceMan);
 	}
 
 	private void purgeObjects() {

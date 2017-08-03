@@ -23,7 +23,7 @@ public class Asteroid extends GameObject {
 
 	}
 
-	void draw(Graphics g) {
-		g.drawImage(GamePanel.asteroidlmg, x, y, width, height, null);
+	void draw(Graphics g, int xOffset, int yOffset) {
+		g.drawImage(GamePanel.asteroidlmg, x - xOffset, y - yOffset, width, height, null);
 	}
 }
