@@ -28,6 +28,8 @@ public class AsteroidJump {
 	void setup() {
 		mainFrame.add(gamePanel);
 		mainFrame.addKeyListener(gamePanel);
+		mainFrame.addMouseListener(gamePanel);
+		mainFrame.addMouseMotionListener(gamePanel);
 		mainFrame.setVisible(true);
 		mainFrame.setSize(width, height);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

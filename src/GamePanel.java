@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
@@ -14,7 +17,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class GamePanel extends JPanel implements ActionListener, KeyListener {
+public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseMotionListener, MouseListener {
 	// MEMBER VARIABLES
 	Timer timer;
 
@@ -33,7 +36,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	ObjectManager om = new ObjectManager();
 
-	public static BufferedImage spaceManlmg;
+	public static BufferedImage spaceManRlmg;
+	public static BufferedImage spaceManLlmg;
 	public static BufferedImage asteroidlmg;
 	
 	Camera camera = new Camera();
@@ -47,13 +51,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		
 		int randX2 = 0;
 		
-		for (int i = 1; i < 50; i++) {
+		for (int i = 2; i < 50; i++) {
 			int randX = new Random().nextInt(450);
-			if (i == 1) {
+			if (i == 2) {
 				randX2 = randX;
 			}
 			
-			om.addObject(new Asteroid(randX, i * 200, 175, 50));
+			om.addObject(new Asteroid(randX, i * 300, 175, 50));
 		}
 		
 		spaceMan = new SpaceMan(randX2 + 68, 150, 39, 60);
@@ -61,7 +65,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		om.setSpaceMan(spaceMan);
 		
 		try {
-			spaceManlmg = ImageIO.read(this.getClass().getResourceAsStream("spaceMan1.png"));
+			spaceManRlmg = ImageIO.read(this.getClass().getResourceAsStream("spaceManR.png"));
+			spaceManLlmg = ImageIO.read(this.getClass().getResourceAsStream("spaceManL.png"));
 			asteroidlmg = ImageIO.read(this.getClass().getResourceAsStream("8bitast.png"));
 		}
 	
@@ -122,7 +127,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			spaceMan.jump();
+
 		}
 	}
 
@@ -171,7 +176,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		for (int i = 0; i < 60; i++) {
 			if (i % 5 == 0) {
-				g.setColor(Color.WHITE);
+				int lumans = new Random().nextInt(256);
+				g.setColor(new Color(lumans, lumans, lumans));
 				int x = new Random().nextInt(AsteroidJump.width);
 				int y = new Random().nextInt(AsteroidJump.height);
 				g.fillOval(x, y, 5, 5);
@@ -221,6 +227,56 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(textFont);
 		g.drawString("You killed " + om.getScore() + " aliens", 150, 350);
 		g.drawString("Press BACKSPACE to Restart", 100, 450);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (spaceMan.toggle == 1) {
+			spaceMan.startClick = true;
+		}
+		if (spaceMan.toggle == 2) {
+			spaceMan.canJump = true;
+		}
+		
+		System.out.println("click");
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		if (spaceMan.startClick == true) {
+			spaceMan.mouseY = e.getY();
+		}
+		
 	}
 
 }
