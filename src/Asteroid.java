@@ -4,11 +4,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Asteroid extends GameObject {
-	// MEMBER VARIABLES
-
-	boolean right = false;
-	boolean left = false;
-
 	// CONSTRUCTOR
 	Asteroid(int x, int y, int width, int height) {
 		super(x, y, width, height);

@@ -10,7 +10,7 @@ public class SpaceMan extends GameObject {
 	boolean right = false;
 	boolean left = false;
 
-	boolean canJump;
+	boolean canJump = false;
 	boolean canMove;
 	boolean isJumping;
 	boolean isMoving;
@@ -21,13 +21,10 @@ public class SpaceMan extends GameObject {
 	double gravity = 0.08;
 	double newY = 0;
 
-	private int yLimit = 500;
-
 	int dir = 1;
 
 	boolean startClick = false;
-	boolean endClick = false;
-	int toggle = 1;
+	int toggle = 0;
 	int mouseY;
 	int xO;
 	int yO;
@@ -45,27 +42,24 @@ public class SpaceMan extends GameObject {
 	// METHODS
 	void update() {
 		super.update();
+		
+		
+
 
 		/*
 		 * if (canJump == true) { xVelocity += accel; x += xVelocity; }
 		 */
-		if (right && isMoving == false) {
-			dir = 1;
-			x += 5;
-		}
-		if (left && isMoving == false) {
-			dir = 2;
-			x -= 5;
-		}
+		
 
 		if (asteroid != null && collisionBox.intersects(asteroid.collisionBox)) {
 			canJump = true;
-
+			
 			int ax = asteroid.collisionBox.x;
 			int ay = asteroid.collisionBox.y;
 			int aw = asteroid.collisionBox.width;
 			int ah = asteroid.collisionBox.height;
 
+			
 			if (x + width > ax && newY + height / 2 > ay && newY + height / 2 < ay + ah && x + width < ax + aw / 2) {
 				x = asteroid.x - width;
 			}
@@ -76,6 +70,17 @@ public class SpaceMan extends GameObject {
 			if (newY + height > ay && x + width > ax && x < ax + aw && newY + height < ay + ah / 2) {
 				newY = ay - height;
 				canMove = true;
+				
+				if (x > ax && x + width < ax + aw) {
+					if (right) {
+						dir = 1;
+						x += 5;
+					}
+					if (left) {
+						dir = 2;
+						x -= 5;
+					}
+				}
 			}
 
 			if (newY < ay + ah && x + width > ax && x < ax + aw && newY + height > ay + ah / 2) {
@@ -109,9 +114,6 @@ public class SpaceMan extends GameObject {
 		}
 
 		if (startClick == true) {
-			int timer = 0;
-			timer += 1;
-
 			g.setColor(Color.RED);
 
 			if (mouseY < (int) newY - yOffset - 65) {
@@ -119,22 +121,17 @@ public class SpaceMan extends GameObject {
 			}
 			g.fillRect(x - xOffset + 40, mouseY, 11, ((int) newY - yOffset - 65 + 60) - mouseY);
 			g.drawRect(x - xOffset + 40, (int) newY - yOffset - 65, 10, 60);
-
-			if (timer == 4) {
-				toggle = 2;
-			}
+			System.out.println((-1 * (((int) newY - yO - 65 + 60) - mouseY)) / 4);
 		}
 	}
 
 	public void jump() {
-		if (toggle == 2) {
-			if (canJump == true) {
-				isJumping = true;
-				System.out.println("jumping");
-				yVelocity = (-1 * (((int) newY - yO - 65 + 60) - mouseY)) / 6;
-				canJump = false;
-				toggle = 1;
-			}
+		if (canJump == true) {
+			isJumping = true;
+			//System.out.println("jumping");
+			yVelocity = (-1 * (((int) newY - yO - 65 + 60) - mouseY)) / 4;
+			canJump = false;
+			toggle = 0;
 		}
 	}
 

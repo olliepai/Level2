@@ -110,7 +110,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			System.out.println("working");
 			currentState += 1;
 
 			if (currentState > END_STATE) {
@@ -237,19 +236,30 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (spaceMan.toggle == 1) {
+		if (spaceMan.toggle == 0) {
+			//System.out.println("start");
 			spaceMan.startClick = true;
+			System.out.println(spaceMan.toggle);
 		}
-		if (spaceMan.toggle == 2) {
+		if (spaceMan.toggle == 1) {
+			spaceMan.startClick = false;
 			spaceMan.canJump = true;
+			spaceMan.jump();
+			System.out.println(spaceMan.toggle);
+			//System.out.println("jump");
 		}
 		
-		System.out.println("click");
+		//System.out.println("click");
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
+		if (spaceMan.startClick == true) {
+			spaceMan.toggle = 1;
+		}
+		
+		//System.out.println("off");
 		
 	}
 
