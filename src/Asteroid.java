@@ -1,7 +1,5 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class Asteroid extends GameObject {
 	// CONSTRUCTOR
@@ -13,12 +11,15 @@ public class Asteroid extends GameObject {
 	// METHODS
 	void update() {
 		super.update();
-		
+
 		collisionBox.setBounds(x + 10, y + 10, width - 20, height - 10);
 
 	}
 
 	void draw(Graphics g, int xOffset, int yOffset) {
+
 		g.drawImage(GamePanel.asteroidlmg, x - xOffset, y - yOffset, width, height, null);
+		g.setColor(Color.RED);
+		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 	}
 }

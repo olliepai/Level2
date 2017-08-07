@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -39,7 +38,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	public static BufferedImage spaceManRlmg;
 	public static BufferedImage spaceManLlmg;
 	public static BufferedImage asteroidlmg;
-	
+
 	Camera camera = new Camera();
 
 	// CONSTRUCTOR
@@ -48,28 +47,28 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 		titleFont = new Font("FUTURA", Font.PLAIN, 48);
 		textFont = new Font("Monaco", Font.PLAIN, 24);
-		
+
 		int randX2 = 0;
-		
-		for (int i = 2; i < 50; i++) {
+
+		for (int i = 1; i < 50; i++) {
 			int randX = new Random().nextInt(450);
-			if (i == 2) {
+			if (i == 1) {
 				randX2 = randX;
 			}
-			
+
 			om.addObject(new Asteroid(randX, i * 300, 175, 50));
 		}
-		
-		spaceMan = new SpaceMan(randX2 + 68, 150, 39, 60);
+
+		spaceMan = new SpaceMan(randX2 + 68, 300 - 60, 39, 60);
 
 		om.setSpaceMan(spaceMan);
-		
+
 		try {
 			spaceManRlmg = ImageIO.read(this.getClass().getResourceAsStream("spaceManR.png"));
 			spaceManLlmg = ImageIO.read(this.getClass().getResourceAsStream("spaceManL.png"));
 			asteroidlmg = ImageIO.read(this.getClass().getResourceAsStream("8bitast.png"));
 		}
-	
+
 		catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -231,13 +230,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (spaceMan.toggle == 0) {
-			//System.out.println("start");
+			// System.out.println("start");
 			spaceMan.startClick = true;
 			System.out.println(spaceMan.toggle);
 		}
@@ -246,10 +245,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			spaceMan.canJump = true;
 			spaceMan.jump();
 			System.out.println(spaceMan.toggle);
-			//System.out.println("jump");
+			// System.out.println("jump");
 		}
-		
-		//System.out.println("click");
+
+		// System.out.println("click");
 	}
 
 	@Override
@@ -258,27 +257,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		if (spaceMan.startClick == true) {
 			spaceMan.toggle = 1;
 		}
-		
-		//System.out.println("off");
-		
+
+		// System.out.println("off");
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -286,7 +285,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		if (spaceMan.startClick == true) {
 			spaceMan.mouseY = e.getY();
 		}
-		
+
 	}
 
 }
