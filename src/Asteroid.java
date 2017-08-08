@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.Graphics;
 
 public class Asteroid extends GameObject {
@@ -17,9 +16,8 @@ public class Asteroid extends GameObject {
 	}
 
 	void draw(Graphics g, int xOffset, int yOffset) {
-
 		g.drawImage(GamePanel.asteroidlmg, x - xOffset, y - yOffset, width, height, null);
-		g.setColor(Color.RED);
-		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+		// g.setColor(Color.RED);
+		// g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 	}
 }

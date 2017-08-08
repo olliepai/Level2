@@ -42,10 +42,6 @@ public class SpaceMan extends GameObject {
 	void update() {
 		super.update();
 
-		/*
-		 * if (canJump == true) { xVelocity += accel; x += xVelocity; } //
-		 */
-
 		if (asteroid != null && collisionBox.intersects(asteroid.collisionBox)) {
 			canJump = true;
 
@@ -62,7 +58,8 @@ public class SpaceMan extends GameObject {
 				x = ax + aw - width;
 			}
 			if (newY + height > ay && x > ax && x + width < ax + aw && newY + height < ay + ah / 2) {
-				newY = ay - height + 1;
+				newY = ay - height;
+				speed = 1;
 				canMove = true;
 			}
 
@@ -70,15 +67,15 @@ public class SpaceMan extends GameObject {
 				newY = ay + ah;
 			}
 
-			if (yVelocity < 1 && x > asteroid.collisionBox.x + width && x + width < asteroid.collisionBox.x + asteroid.collisionBox.width) {
-				speed = 3;
-			}
-			
-
-			if (yVelocity < 1 && x < asteroid.collisionBox.x + width + 1 && x + width > asteroid.collisionBox.x + asteroid.collisionBox.width - 1) {
-				speed = 0;
+			if (x < asteroid.collisionBox.x + 2) {
+				x = asteroid.collisionBox.x + 2;
+				left = false;
 			}
 
+			if (x + width > asteroid.collisionBox.x + asteroid.collisionBox.width - 2) {
+				x = asteroid.collisionBox.x + asteroid.collisionBox.width - width - 2;
+				right = false;
+			}
 
 			yVelocity = 0;
 			gravity = 0;
@@ -90,14 +87,26 @@ public class SpaceMan extends GameObject {
 			gravity = 0.08;
 			yVelocity += gravity;
 			newY += yVelocity;
-			speed = 0;
+
+			if (dir == 1 && isJumping == true) {
+				x += 2;
+			}
+			if (dir == 2 && isJumping == true) {
+				x -= 2;
+			}
 		}
 
 		if (right) {
+			dir = 1;
 			x += speed;
 		}
 		if (left) {
+			dir = 2;
 			x -= speed;
+		}
+
+		if (newY < 0 || newY + height > 900) {
+			isAlive = false;
 		}
 
 		collisionBox.setBounds(x, (int) newY, width, height);
@@ -114,6 +123,9 @@ public class SpaceMan extends GameObject {
 			g.drawImage(GamePanel.spaceManLlmg, x - xOffset, (int) newY - yOffset, width, height, null);
 		}
 
+		// g.setColor(Color.RED);
+		// g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+
 		if (startClick == true) {
 			g.setColor(Color.RED);
 
@@ -122,15 +134,17 @@ public class SpaceMan extends GameObject {
 			}
 			g.fillRect(x - xOffset + 40, mouseY, 11, ((int) newY - yOffset - 65 + 60) - mouseY);
 			g.drawRect(x - xOffset + 40, (int) newY - yOffset - 65, 10, 60);
-			System.out.println((-1 * (((int) newY - yO - 65 + 60) - mouseY)) / 4);
+			System.out.println((-1 * (((int) newY - yO - 65 + 60) - mouseY)) / 8);
 		}
+
 	}
 
 	public void jump() {
 		if (canJump == true) {
 			isJumping = true;
 			System.out.println("jumping");
-			yVelocity = (-1 * (((int) newY - yO - 65 + 60) - mouseY)) / 4;
+			yVelocity = (-1 * (((int) newY - yO - 65 + 60) - mouseY)) / 8;
+			System.out.println(yVelocity);
 			canJump = false;
 			toggle = 0;
 		}

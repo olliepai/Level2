@@ -51,15 +51,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		int randX2 = 0;
 
 		for (int i = 1; i < 50; i++) {
-			int randX = new Random().nextInt(450);
+			int randXE = new Random().nextInt(125);
+			int randXO = new Random().nextInt(125) + 300;
 			if (i == 1) {
-				randX2 = randX;
+				randX2 = randXO;
+				om.addObject(new Asteroid(randXO, 200, 175, 50));
+			} else if (i % 2 == 0) {
+				om.addObject(new Asteroid(randXE, i * 500 - 300, 175, 50));
+			} else {
+				om.addObject(new Asteroid(randXO, i * 500 - 300, 175, 50));
 			}
-
-			om.addObject(new Asteroid(randX, i * 300, 175, 50));
 		}
 
-		spaceMan = new SpaceMan(randX2 + 68, 300 - 60, 39, 60);
+		spaceMan = new SpaceMan(randX2 + 68, 200 - 60, 39, 60);
 
 		om.setSpaceMan(spaceMan);
 
@@ -150,8 +154,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		om.update();
 
 		om.checkCollision();
-
-		if (spaceMan.isAlive == false) {
+		if (spaceMan.isAlive == false /* && spaceMan.isJumping == false */) {
 			currentState = END_STATE;
 
 			om.reset();
@@ -242,7 +245,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 		if (spaceMan.toggle == 1) {
 			spaceMan.startClick = false;
-			spaceMan.canJump = true;
+			// spaceMan.canJump = true;
 			spaceMan.jump();
 			System.out.println(spaceMan.toggle);
 			// System.out.println("jump");

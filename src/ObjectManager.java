@@ -1,15 +1,11 @@
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class ObjectManager {
 	ArrayList<Asteroid> asteroidObjects;
 	SpaceMan spaceMan;
 
 	private int score = 0;
-
-	long enemyTimer = 0;
-	int enemySpawnTime = 200;
 
 	public ObjectManager() {
 		asteroidObjects = new ArrayList<Asteroid>();
@@ -35,7 +31,7 @@ public class ObjectManager {
 	}
 
 	public void draw(Graphics g, Camera camera) {
-			camera.draw(g, asteroidObjects, spaceMan);
+		camera.draw(g, asteroidObjects, spaceMan);
 	}
 
 	private void purgeObjects() {
@@ -46,15 +42,8 @@ public class ObjectManager {
 		}
 	}
 
-	// public void manageEnemies() {
-	// if (System.currentTimeMillis() - enemyTimer >= enemySpawnTime) {
-	// addObject(new Alien(new Random().nextInt(500), 0, 50, 50));
-	// enemyTimer = System.currentTimeMillis();
-	// }
-	// }
-	//
 	public void checkCollision() {
-		
+
 		for (int i = 0; i < asteroidObjects.size(); i++) {
 			Asteroid o1 = asteroidObjects.get(i);
 
