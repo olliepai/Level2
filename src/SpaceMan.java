@@ -73,6 +73,12 @@ public class SpaceMan extends GameObject {
 			if (yVelocity < 1 && x > asteroid.collisionBox.x + width && x + width < asteroid.collisionBox.x + asteroid.collisionBox.width) {
 				speed = 3;
 			}
+			
+
+			if (yVelocity < 1 && x < asteroid.collisionBox.x + width + 1 && x + width > asteroid.collisionBox.x + asteroid.collisionBox.width - 1) {
+				speed = 0;
+			}
+
 
 			yVelocity = 0;
 			gravity = 0;
