@@ -19,6 +19,10 @@ public class SpaceMan extends GameObject {
 	double gravity = 0.08;
 	double newY = 0;
 
+	double jumpSpeed;
+	double height1;
+	double height2;
+
 	int dir = 1;
 
 	boolean startClick = false;
@@ -27,6 +31,7 @@ public class SpaceMan extends GameObject {
 	int xO;
 	int yO;
 	int reset;
+	int score = 0;
 
 	Asteroid asteroid;
 
@@ -134,7 +139,14 @@ public class SpaceMan extends GameObject {
 			}
 			g.fillRect(x - xOffset + 40, mouseY, 11, ((int) newY - yOffset - 65 + 60) - mouseY);
 			g.drawRect(x - xOffset + 40, (int) newY - yOffset - 65, 10, 60);
-			System.out.println((-1 * (((int) newY - yO - 65 + 60) - mouseY)) / 8);
+			jumpSpeed = (-1 * (((int) newY - yO - 65 + 60) - mouseY)) / 8;
+			if (mouseY < (int) newY - yO - 65) {
+				jumpSpeed = (-1 * ((int) newY - yO - 65)) / 8;
+			}
+			if (mouseY > (int) newY - yO - 65 + 60) {
+				jumpSpeed = (-1 * ((int) newY - yO - 65 + 60)) / 8;
+			}
+			System.out.println(jumpSpeed);
 		}
 
 	}
@@ -143,7 +155,8 @@ public class SpaceMan extends GameObject {
 		if (canJump == true) {
 			isJumping = true;
 			System.out.println("jumping");
-			yVelocity = (-1 * (((int) newY - yO - 65 + 60) - mouseY)) / 8;
+
+			yVelocity = jumpSpeed;
 			System.out.println(yVelocity);
 			canJump = false;
 			toggle = 0;

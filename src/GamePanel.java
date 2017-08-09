@@ -23,15 +23,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
+	final int INS_STATE = 3;
 
 	int currentState = MENU_STATE;
 
 	Font titleFont;
 	Font textFont;
+	Font insFont;
 
 	SpaceMan spaceMan;
 
 	static int arrowCase = 0;
+
+	int randX2 = 0;
 
 	ObjectManager om = new ObjectManager();
 
@@ -47,8 +51,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 		titleFont = new Font("FUTURA", Font.PLAIN, 48);
 		textFont = new Font("Monaco", Font.PLAIN, 24);
-
-		int randX2 = 0;
+		insFont = new Font("Monaco", Font.PLAIN, 16);
 
 		for (int i = 1; i < 50; i++) {
 			int randXE = new Random().nextInt(125);
@@ -88,6 +91,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			updateGameState();
 		} else if (currentState == END_STATE) {
 			updateEndState();
+		} else if (currentState == INS_STATE) {
+			updateInsState();
 		}
 	}
 
@@ -102,6 +107,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			drawGameState(g);
 		} else if (currentState == END_STATE) {
 			drawEndState(g);
+		} else if (currentState == INS_STATE) {
+			drawInsState(g);
 		}
 	}
 
@@ -129,7 +136,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			if (currentState == MENU_STATE) {
+				currentState = INS_STATE;
+			}
+		}
 
+		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+			if (currentState == INS_STATE) {
+				currentState = MENU_STATE;
+			}
+			if (currentState == END_STATE) {
+				currentState = GAME_STATE;
+			}
 		}
 	}
 
@@ -159,15 +177,34 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 			om.reset();
 
-			SpaceMan spaceMan = new SpaceMan(250, 700, 50, 50);
+			for (int i = 1; i < 50; i++) {
+				int randXE = new Random().nextInt(125);
+				int randXO = new Random().nextInt(125) + 300;
+				if (i == 1) {
+					randX2 = randXO;
+					om.addObject(new Asteroid(randXO, 200, 175, 50));
+				} else if (i % 2 == 0) {
+					om.addObject(new Asteroid(randXE, i * 500 - 300, 175, 50));
+				} else {
+					om.addObject(new Asteroid(randXO, i * 500 - 300, 175, 50));
+				}
+			}
+
+			spaceMan = new SpaceMan(randX2 + 68, 200 - 60, 39, 60);
 
 			om.setSpaceMan(spaceMan);
+
+			spaceMan.score = 0;
 		}
 
 		om.getScore();
 	}
 
 	void updateEndState() {
+
+	}
+
+	void updateInsState() {
 
 	}
 
@@ -207,6 +244,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 
 		om.draw(g, camera);
+
+		g.setColor(Color.YELLOW);
+		g.setFont(textFont);
+		g.drawString("Score: " + spaceMan.score, 225, 75);
 	}
 
 	void drawEndState(Graphics g) {
@@ -226,8 +267,39 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setFont(titleFont);
 		g.drawString("GAME OVER", 130, 200);
 		g.setFont(textFont);
-		g.drawString("You killed " + om.getScore() + " aliens", 150, 350);
+		if (spaceMan.score == 1) {
+			g.drawString("You jumped to " + spaceMan.score + " asteroid.", 105, 350);
+		} else {
+			g.drawString("You jumped to " + spaceMan.score + " asteroids.", 105, 350);
+		}
+
 		g.drawString("Press BACKSPACE to Restart", 100, 450);
+	}
+
+	void drawInsState(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, AsteroidJump.width, AsteroidJump.height);
+
+		for (int i = 0; i < 60; i++) {
+			if (i % 5 == 0) {
+				g.setColor(Color.WHITE);
+				int x = new Random().nextInt(AsteroidJump.width);
+				int y = new Random().nextInt(AsteroidJump.height);
+				g.fillOval(x, y, 5, 5);
+			}
+		}
+
+		g.setColor(Color.BLUE);
+		g.setFont(titleFont);
+		g.drawString("INSTRUCTIONS", 120, 200);
+		g.setFont(insFont);
+		g.drawString("Jump down to as many ASTEROIDS as you can", 90, 300);
+		g.drawString("Click the mouse ONCE to display jump power bar", 65, 375);
+		g.drawString("Drag the mouse UP and DOWN to set the power of the jump", 20, 450);
+		g.drawString("Use LEFT and RIGHT arrow keys to set position on asteroid", 15, 525);
+		g.drawString("Click AGAIN to jump", 200, 600);
+		g.setFont(textFont);
+		g.drawString("Press BACKSPACE to go back to the menu", 25, 700);
 	}
 
 	@Override
