@@ -20,6 +20,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	// MEMBER VARIABLES
 	Timer timer;
 
+	static int yScore = 0;
+	static int score = 0;
+
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
@@ -42,6 +45,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	public static BufferedImage spaceManRlmg;
 	public static BufferedImage spaceManLlmg;
 	public static BufferedImage asteroidlmg;
+	public static BufferedImage powerUplmg;
 
 	Camera camera = new Camera();
 
@@ -53,16 +57,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		textFont = new Font("Monaco", Font.PLAIN, 24);
 		insFont = new Font("Monaco", Font.PLAIN, 16);
 
+		int powerSpawn = new Random().nextInt(50);
+
 		for (int i = 1; i < 50; i++) {
-			int randXE = new Random().nextInt(125);
-			int randXO = new Random().nextInt(125) + 300;
+			int randXE = new Random().nextInt(175);
+			int randXO = new Random().nextInt(175) + 250;
 			if (i == 1) {
 				randX2 = randXO;
-				om.addObject(new Asteroid(randXO, 200, 175, 50));
+				om.addObjectA(new Asteroid(randXO, 200, 175, 50));
 			} else if (i % 2 == 0) {
-				om.addObject(new Asteroid(randXE, i * 500 - 300, 175, 50));
+				om.addObjectA(new Asteroid(randXE, i * 500 - 300, 175, 50));
 			} else {
-				om.addObject(new Asteroid(randXO, i * 500 - 300, 175, 50));
+				om.addObjectA(new Asteroid(randXO, i * 500 - 300, 175, 50));
+			}
+			if (i == 2) {
+				// om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 20, 25, 25));
 			}
 		}
 
@@ -74,6 +83,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			spaceManRlmg = ImageIO.read(this.getClass().getResourceAsStream("spaceManR.png"));
 			spaceManLlmg = ImageIO.read(this.getClass().getResourceAsStream("spaceManL.png"));
 			asteroidlmg = ImageIO.read(this.getClass().getResourceAsStream("8bitast.png"));
+			powerUplmg = ImageIO.read(this.getClass().getResourceAsStream("powerUp.png"));
 		}
 
 		catch (IOException e) {
@@ -120,10 +130,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			currentState += 1;
+			if (currentState != GAME_STATE) {
+				currentState += 1;
+			}
 
 			if (currentState > END_STATE) {
 				currentState = MENU_STATE;
+				score = 0;
 			}
 		}
 
@@ -146,7 +159,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				currentState = MENU_STATE;
 			}
 			if (currentState == END_STATE) {
+
 				currentState = GAME_STATE;
+				score = 0;
 			}
 		}
 	}
@@ -167,12 +182,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	}
 
 	void updateGameState() {
-		// om.manageEnemies();
-
 		om.update();
 
 		om.checkCollision();
-		if (spaceMan.isAlive == false /* && spaceMan.isJumping == false */) {
+		if (spaceMan.isAlive == false) {
 			currentState = END_STATE;
 
 			om.reset();
@@ -182,11 +195,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				int randXO = new Random().nextInt(125) + 300;
 				if (i == 1) {
 					randX2 = randXO;
-					om.addObject(new Asteroid(randXO, 200, 175, 50));
+					om.addObjectA(new Asteroid(randXO, 200, 175, 50));
 				} else if (i % 2 == 0) {
-					om.addObject(new Asteroid(randXE, i * 500 - 300, 175, 50));
+					om.addObjectA(new Asteroid(randXE, i * 500 - 300, 175, 50));
 				} else {
-					om.addObject(new Asteroid(randXO, i * 500 - 300, 175, 50));
+					om.addObjectA(new Asteroid(randXO, i * 500 - 300, 175, 50));
 				}
 			}
 
@@ -194,7 +207,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 			om.setSpaceMan(spaceMan);
 
-			spaceMan.score = 0;
 		}
 
 		om.getScore();
@@ -247,7 +259,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 		g.setColor(Color.YELLOW);
 		g.setFont(textFont);
-		g.drawString("Score: " + spaceMan.score, 225, 75);
+		g.drawString("Score: " + score, 225, 75);
 	}
 
 	void drawEndState(Graphics g) {
@@ -267,13 +279,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.setFont(titleFont);
 		g.drawString("GAME OVER", 130, 200);
 		g.setFont(textFont);
-		if (spaceMan.score == 1) {
-			g.drawString("You jumped to " + spaceMan.score + " asteroid.", 105, 350);
+		if (score == 1) {
+			g.drawString("You jumped to " + score + " asteroid.", 105, 350);
 		} else {
-			g.drawString("You jumped to " + spaceMan.score + " asteroids.", 105, 350);
+			g.drawString("You jumped to " + score + " asteroids.", 105, 350);
 		}
 
 		g.drawString("Press BACKSPACE to Restart", 100, 450);
+		g.drawString("Press ENTER to go back to the Menu", 50, 550);
 	}
 
 	void drawInsState(Graphics g) {
@@ -310,31 +323,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (spaceMan.toggle == 0) {
-			// System.out.println("start");
-			spaceMan.startClick = true;
-			System.out.println(spaceMan.toggle);
+		if (currentState == GAME_STATE) {
+			if (spaceMan.toggle == 0) {
+				spaceMan.startClick = true;
+				System.out.println(spaceMan.toggle);
+			}
+			if (spaceMan.toggle == 1) {
+				spaceMan.startClick = false;
+				spaceMan.jump();
+				System.out.println(spaceMan.toggle);
+			}
 		}
-		if (spaceMan.toggle == 1) {
-			spaceMan.startClick = false;
-			// spaceMan.canJump = true;
-			spaceMan.jump();
-			System.out.println(spaceMan.toggle);
-			// System.out.println("jump");
-		}
-
-		// System.out.println("click");
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if (spaceMan.startClick == true) {
-			spaceMan.toggle = 1;
+		if (currentState == GAME_STATE) {
+			if (spaceMan.startClick == true) {
+				spaceMan.toggle = 1;
+			}
 		}
-
-		// System.out.println("off");
-
 	}
 
 	@Override

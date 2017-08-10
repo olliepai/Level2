@@ -31,9 +31,9 @@ public class SpaceMan extends GameObject {
 	int xO;
 	int yO;
 	int reset;
-	int score = 0;
 
 	Asteroid asteroid;
+	PowerUp powerUp;
 
 	// CONSTRUCTOR
 	SpaceMan(int x, int y, int width, int height) {
@@ -72,19 +72,23 @@ public class SpaceMan extends GameObject {
 				newY = ay + ah;
 			}
 
-			if (x < asteroid.collisionBox.x + 2) {
-				x = asteroid.collisionBox.x + 2;
+			if (x < ax + 2) {
+				x = ax + 2;
 				left = false;
 			}
 
-			if (x + width > asteroid.collisionBox.x + asteroid.collisionBox.width - 2) {
-				x = asteroid.collisionBox.x + asteroid.collisionBox.width - width - 2;
+			if (x + width > ax + aw - 2) {
+				x = ax + aw - width - 2;
 				right = false;
 			}
 
 			yVelocity = 0;
 			gravity = 0;
 		}
+
+		// if (powerUp != null && collisionBox.intersects(powerUp.collisionBox)) {
+		// System.out.println("Hit");
+		// }
 
 		else {
 			canMove = false;
@@ -110,7 +114,7 @@ public class SpaceMan extends GameObject {
 			x -= speed;
 		}
 
-		if (newY < 0 || newY + height > 900) {
+		if ((newY < 0 || newY + height > 900) && isJumping == false) {
 			isAlive = false;
 		}
 
@@ -139,12 +143,12 @@ public class SpaceMan extends GameObject {
 			}
 			g.fillRect(x - xOffset + 40, mouseY, 11, ((int) newY - yOffset - 65 + 60) - mouseY);
 			g.drawRect(x - xOffset + 40, (int) newY - yOffset - 65, 10, 60);
-			jumpSpeed = (-1 * (((int) newY - yO - 65 + 60) - mouseY)) / 8;
+			jumpSpeed = (-1 * (((int) newY - yO - 65 + 60) - mouseY)) / 9;
 			if (mouseY < (int) newY - yO - 65) {
-				jumpSpeed = (-1 * ((int) newY - yO - 65)) / 8;
+				jumpSpeed = (-1 * ((int) newY - yO - 65)) / 9;
 			}
 			if (mouseY > (int) newY - yO - 65 + 60) {
-				jumpSpeed = (-1 * ((int) newY - yO - 65 + 60)) / 8;
+				jumpSpeed = 0;
 			}
 			System.out.println(jumpSpeed);
 		}
@@ -163,7 +167,11 @@ public class SpaceMan extends GameObject {
 		}
 	}
 
-	void setCollisionObject(Asteroid asteroid) {
+	void setCollisionObjectA(Asteroid asteroid) {
 		this.asteroid = asteroid;
+	}
+
+	void setCollisionObjectP(PowerUp powerUp) {
+		this.powerUp = powerUp;
 	}
 }
