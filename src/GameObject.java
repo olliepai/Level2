@@ -23,7 +23,7 @@ public class GameObject {
 
 	// METHODS
 	void update() {
-		
+
 	}
 
 	void draw(Graphics g, int xOffset, int yOffset) {

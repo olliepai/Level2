@@ -57,9 +57,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		textFont = new Font("Monaco", Font.PLAIN, 24);
 		insFont = new Font("Monaco", Font.PLAIN, 16);
 
-		int powerSpawn = new Random().nextInt(50);
+		int powerSpawn = new Random().nextInt(4);
 
-		for (int i = 1; i < 50; i++) {
+		for (int i = 1; i < 4; i++) {
 			int randXE = new Random().nextInt(175);
 			int randXO = new Random().nextInt(175) + 250;
 			if (i == 1) {
@@ -71,8 +71,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				om.addObjectA(new Asteroid(randXO, i * 500 - 300, 175, 50));
 			}
 			if (i == 2) {
-				// om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 20, 25, 25));
+				om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
 			}
+			// if (powerSpawn == i && i % 2 == 0) {
+			// om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+			// }
+			// if (powerSpawn == i && i % 2 != 0) {
+			// om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+			// }
 		}
 
 		spaceMan = new SpaceMan(randX2 + 68, 200 - 60, 39, 60);

@@ -11,7 +11,6 @@ public class SpaceMan extends GameObject {
 	boolean canJump = false;
 	boolean canMove;
 	boolean isJumping;
-	boolean isMoving;
 
 	double xVelocity = 0;
 	double yVelocity = 0;
@@ -40,7 +39,7 @@ public class SpaceMan extends GameObject {
 		super(x, y, width, height);
 		newY = y;
 
-		speed = 3;
+		speed = 1;
 	}
 
 	// METHODS
@@ -63,9 +62,14 @@ public class SpaceMan extends GameObject {
 				x = ax + aw - width;
 			}
 			if (newY + height > ay && x > ax && x + width < ax + aw && newY + height < ay + ah / 2) {
+				isJumping = false;
 				newY = ay - height;
 				speed = 1;
-				canMove = true;
+
+				if (newY > 600) {
+					canMove = true;
+				}
+
 			}
 
 			if (newY < ay + ah && x > ax && x + width < ax + aw && newY + height > ay + ah / 2) {
@@ -82,13 +86,13 @@ public class SpaceMan extends GameObject {
 				right = false;
 			}
 
+			if (powerUp != null && collisionBox.intersects(powerUp.collisionBox)) {
+				// System.out.println("Hit");
+			}
+
 			yVelocity = 0;
 			gravity = 0;
 		}
-
-		// if (powerUp != null && collisionBox.intersects(powerUp.collisionBox)) {
-		// System.out.println("Hit");
-		// }
 
 		else {
 			canMove = false;
@@ -98,9 +102,11 @@ public class SpaceMan extends GameObject {
 			newY += yVelocity;
 
 			if (dir == 1 && isJumping == true) {
-				x += 2;
+				speed = 2;
+				x += speed;
 			}
 			if (dir == 2 && isJumping == true) {
+				speed = 2;
 				x -= 2;
 			}
 		}
@@ -114,7 +120,11 @@ public class SpaceMan extends GameObject {
 			x -= speed;
 		}
 
-		if ((newY < 0 || newY + height > 900) && isJumping == false) {
+		if (newY < 0 && isJumping == false) {
+			isAlive = false;
+		}
+
+		if (newY + height > 900) {
 			isAlive = false;
 		}
 
