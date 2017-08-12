@@ -30,6 +30,11 @@ public class SpaceMan extends GameObject {
 	int xO;
 	int yO;
 	int reset;
+	
+	int toggleMove = 0;
+	boolean moveAsteroids;
+	
+	int jumpCounter;
 
 	Asteroid asteroid;
 	PowerUp powerUp;
@@ -68,6 +73,7 @@ public class SpaceMan extends GameObject {
 
 				if (newY > 600) {
 					canMove = true;
+					//toggleMove = 0;
 				}
 
 			}
@@ -120,11 +126,11 @@ public class SpaceMan extends GameObject {
 			x -= speed;
 		}
 
-		if (newY < 0 && isJumping == false) {
+		if (newY - yO < 0 && isJumping == false) {
 			isAlive = false;
 		}
 
-		if (newY + height > 900) {
+		if (newY - yO + height > 900) {
 			isAlive = false;
 		}
 
@@ -160,7 +166,7 @@ public class SpaceMan extends GameObject {
 			if (mouseY > (int) newY - yO - 65 + 60) {
 				jumpSpeed = 0;
 			}
-			System.out.println(jumpSpeed);
+			//System.out.println(jumpSpeed);
 		}
 
 	}
@@ -168,10 +174,10 @@ public class SpaceMan extends GameObject {
 	public void jump() {
 		if (canJump == true) {
 			isJumping = true;
-			System.out.println("jumping");
+			//System.out.println("jumping");
 
 			yVelocity = jumpSpeed;
-			System.out.println(yVelocity);
+			//System.out.println(yVelocity);
 			canJump = false;
 			toggle = 0;
 		}

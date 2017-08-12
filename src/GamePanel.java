@@ -332,12 +332,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		if (currentState == GAME_STATE) {
 			if (spaceMan.toggle == 0) {
 				spaceMan.startClick = true;
-				System.out.println(spaceMan.toggle);
+				//System.out.println(spaceMan.toggle);
 			}
 			if (spaceMan.toggle == 1) {
 				spaceMan.startClick = false;
 				spaceMan.jump();
-				System.out.println(spaceMan.toggle);
+				//System.out.println(spaceMan.toggle);
 			}
 		}
 	}
