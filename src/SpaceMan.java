@@ -34,6 +34,8 @@ public class SpaceMan extends GameObject {
 	boolean canAsteroidMove;
 	boolean onTop;
 	int maxMove = 0;
+	
+	static boolean hitPowerUp = false;
 
 	Asteroid asteroid;
 	PowerUp powerUp;
@@ -91,10 +93,6 @@ public class SpaceMan extends GameObject {
 				right = false;
 			}
 
-			if (powerUp != null && collisionBox.intersects(powerUp.collisionBox)) {
-				// System.out.println("Hit");
-			}
-
 			yVelocity = 0;
 			gravity = 0;
 		}
@@ -119,6 +117,7 @@ public class SpaceMan extends GameObject {
 		
 		if (powerUp != null && collisionBox.intersects(powerUp.collisionBox)) {
 			GamePanel.score *= 2;
+			hitPowerUp = true;
 		}
 
 		if (right) {

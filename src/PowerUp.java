@@ -20,9 +20,14 @@ public class PowerUp extends GameObject {
 
 	@Override
 	void draw(Graphics g, int xOffset, int yOffset) {
-		g.drawImage(GamePanel.powerUplmg, x - xOffset, y - yOffset, width, height, null);
-		g.setColor(Color.RED);
-		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+		if (SpaceMan.hitPowerUp == false) {
+			g.drawImage(GamePanel.powerUplmg, x - xOffset, y - yOffset, width, height, null);
+			g.setColor(Color.RED);
+			g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+		} 
+		else {
+			g.dispose();
+		}
 	}
 
 }
