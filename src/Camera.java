@@ -8,9 +8,6 @@ public class Camera {
 
 	GameObject asteroid;
 	GameObject powerUp;
-	
-	int originalYOffset;
-	
 
 	// METHODS
 	public void draw(Graphics g, ArrayList<Asteroid> asteroidObjects, ArrayList<PowerUp> powerUpObjects, SpaceMan spaceMan) {
@@ -25,27 +22,16 @@ public class Camera {
 		if (spaceMan.isJumping == false && spaceMan.canMove == true) {
 			spaceMan.canJump = false;
 
-			GamePanel.yScore += 1;
+			GamePanel.yScore += 10;
 			// System.out.println(GamePanel.yScore);
 
-			if (GamePanel.yScore % 12204 == 0) {
+			if (GamePanel.yScore % 500 == 0) {
 				GamePanel.score += 1;
 			}
 
-			if (yOffset % 500 == 0 && spaceMan.toggleMove == 0) {
-				originalYOffset = yOffset;
-				spaceMan.moveAsteroids = true;
-				// spaceMan.canMove = false;
-			}		
-			
-			if (spaceMan.moveAsteroids == true) {
+			if (yOffset < spaceMan.maxMove) {
 				yOffset += 10;
-				if (yOffset - originalYOffset > 499) {
-					spaceMan.moveAsteroids = false;
-					spaceMan.toggleMove = 1;
-				}
-				System.out.println(yOffset - originalYOffset);
-			}
+			}	
 
 		}
 
