@@ -193,14 +193,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	void updateGameState() {
 		om.update();
-		om.purgeObjects();
+		
 		om.checkCollision();
-
-		// System.out.println(spaceMan.jumpCounter);
+		
 		if (spaceMan.isAlive == false) {
+			om.purgeObjects();
 			currentState = END_STATE;
-
-			System.out.println("dead");
 
 			om.reset();
 
@@ -232,11 +230,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				}
 
 			}
-
-			GamePanel.score = 0;
+			
+			spaceMan.jumpCounter = 0;
 
 			spaceMan = new SpaceMan(randX2 + 68, 200 - 60, 39, 60);
 			System.out.println(spaceMan.isAlive);
+			
+			Camera.yOffset = 0;
 
 			om.setSpaceMan(spaceMan);
 
@@ -342,8 +342,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		g.drawString("Drag the mouse UP and DOWN to set the power of the jump", 20, 450);
 		g.drawString("Use LEFT and RIGHT arrow keys to set position on asteroid", 15, 525);
 		g.drawString("Click AGAIN to jump", 200, 600);
+		g.drawString("Collect MUSHROOMS to double your score", 100, 675);
 		g.setFont(textFont);
-		g.drawString("Press BACKSPACE to go back to the menu", 25, 700);
+		g.drawString("Press BACKSPACE to go back to the menu", 25, 750);
 	}
 
 	@Override

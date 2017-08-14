@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Camera {
 	// MEMBER VARIABLES
 	int x;
-	int yOffset;
+	static int yOffset;
 
 	GameObject asteroid;
 	GameObject powerUp;
@@ -26,7 +26,7 @@ public class Camera {
 		}
 
 		if (spaceMan.isJumping == false && spaceMan.canMove == true) {
-			spaceMan.canJump = false;
+			
 
 			// System.out.println(GamePanel.yScore);
 
@@ -37,6 +37,7 @@ public class Camera {
 			if (yOffset < spaceMan.maxMove) {
 				GamePanel.yScore += 10;
 				yOffset += 10;
+				spaceMan.startClick = false;
 			}
 
 		}

@@ -78,9 +78,9 @@ public class SpaceMan extends GameObject {
 					canMove = true;
 				}
 
-				// if (jumpCounter == 1 && newY < 500) {
-				// isAlive = false;
-				// }
+				if (jumpCounter == 1 && newY < 500) {
+					isAlive = false;
+				}
 			}
 
 			if (newY < ay + ah && x > ax && x + width < ax + aw && newY + height > ay + ah / 2) {
@@ -124,30 +124,32 @@ public class SpaceMan extends GameObject {
 			hitPowerUp = true;
 		}
 
-		if (right) {
+		if (right && isJumping == false) {
 			dir = 1;
 			x += speed;
 		}
-		if (left) {
+		if (left && isJumping == false) {
 			dir = 2;
 			x -= speed;
 		}
 
 		if (newY - yO < 0 && isJumping == false) {
+			System.out.println("1");
 			isAlive = false;
 		}
 
 		if (newY - yO + height > 900) {
+			System.out.println("2");
 			isAlive = false;
 		}
 
-		// if (x < 0) {
-		// isAlive = false;
-		// }
-		//
-		// if (x + width > 600) {
-		// isAlive = false;
-		// }
+		if (x < 0) {
+			isAlive = false;
+		}
+
+		if (x + width > 600) {
+			isAlive = false;
+		}
 
 		collisionBox.setBounds(x, (int) newY, width, height);
 	}
