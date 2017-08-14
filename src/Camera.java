@@ -16,6 +16,8 @@ public class Camera {
 			asteroid.draw(g, x, yOffset);
 
 		}
+		spaceMan.draw(g, x, yOffset);
+		
 		powerUp = powerUpObjects.get(0);
 		powerUp.draw(g, x, yOffset);
 
@@ -34,8 +36,7 @@ public class Camera {
 			}	
 
 		}
-
-		spaceMan.draw(g, x, yOffset);
+		
 	}
 	
 	public void moveAsteroids() {
