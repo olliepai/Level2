@@ -24,9 +24,11 @@ public class PowerUp extends GameObject {
 			g.drawImage(GamePanel.powerUplmg, x - xOffset, y - yOffset, width, height, null);
 			g.setColor(Color.RED);
 			g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
-		} 
-		else {
+		} else {
+			SpaceMan.powerUp = null;
+			SpaceMan.hitPowerUp = false;
 			g.dispose();
+			isAlive = false;
 		}
 	}
 

@@ -10,36 +10,40 @@ public class Camera {
 	GameObject powerUp;
 
 	// METHODS
-	public void draw(Graphics g, ArrayList<Asteroid> asteroidObjects, ArrayList<PowerUp> powerUpObjects, SpaceMan spaceMan) {
+	public void draw(Graphics g, ArrayList<Asteroid> asteroidObjects, ArrayList<PowerUp> powerUpObjects,
+			SpaceMan spaceMan) {
 		for (int i = 0; i < asteroidObjects.size(); i++) {
 			asteroid = asteroidObjects.get(i);
 			asteroid.draw(g, x, yOffset);
 
 		}
 		spaceMan.draw(g, x, yOffset);
-		
-		powerUp = powerUpObjects.get(0);
-		powerUp.draw(g, x, yOffset);
+		if (powerUpObjects.size() > 1) {
+			for (int i = 0; i < powerUpObjects.size(); i++) {
+				powerUp = powerUpObjects.get(i);
+				powerUp.draw(g, x, yOffset);
+			}
+		}
 
 		if (spaceMan.isJumping == false && spaceMan.canMove == true) {
 			spaceMan.canJump = false;
 
-			GamePanel.yScore += 10;
 			// System.out.println(GamePanel.yScore);
 
-			if (GamePanel.yScore % 500 == 0) {
+			if (GamePanel.yScore % 250 == 0 && GamePanel.yScore % 500 != 0) {
 				GamePanel.score += 1;
 			}
 
 			if (yOffset < spaceMan.maxMove) {
+				GamePanel.yScore += 10;
 				yOffset += 10;
-			}	
+			}
 
 		}
-		
+
 	}
-	
+
 	public void moveAsteroids() {
-		
+
 	}
 }

@@ -34,11 +34,13 @@ public class SpaceMan extends GameObject {
 	boolean canAsteroidMove;
 	boolean onTop;
 	int maxMove = 0;
-	
+
 	static boolean hitPowerUp = false;
 
 	Asteroid asteroid;
-	PowerUp powerUp;
+	static PowerUp powerUp;
+
+	int jumpCounter = 0;
 
 	// CONSTRUCTOR
 	SpaceMan(int x, int y, int width, int height) {
@@ -70,13 +72,15 @@ public class SpaceMan extends GameObject {
 			if (newY + height > ay && x > ax && x + width < ax + aw && newY + height < ay + ah / 2) {
 				isJumping = false;
 				newY = ay - height;
-				speed = 1;
 				onTop = true;
-				
+
 				if (newY > 600) {
 					canMove = true;
 				}
 
+				// if (jumpCounter == 1 && newY < 500) {
+				// isAlive = false;
+				// }
 			}
 
 			if (newY < ay + ah && x > ax && x + width < ax + aw && newY + height > ay + ah / 2) {
@@ -114,7 +118,7 @@ public class SpaceMan extends GameObject {
 				x -= 2;
 			}
 		}
-		
+
 		if (powerUp != null && collisionBox.intersects(powerUp.collisionBox)) {
 			GamePanel.score *= 2;
 			hitPowerUp = true;
@@ -136,6 +140,14 @@ public class SpaceMan extends GameObject {
 		if (newY - yO + height > 900) {
 			isAlive = false;
 		}
+
+		// if (x < 0) {
+		// isAlive = false;
+		// }
+		//
+		// if (x + width > 600) {
+		// isAlive = false;
+		// }
 
 		collisionBox.setBounds(x, (int) newY, width, height);
 	}
@@ -186,6 +198,8 @@ public class SpaceMan extends GameObject {
 			canJump = false;
 			toggle = 0;
 		}
+
+		jumpCounter += 1;
 	}
 
 	void setCollisionObjectA(Asteroid asteroid) {

@@ -57,11 +57,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		textFont = new Font("Monaco", Font.PLAIN, 24);
 		insFont = new Font("Monaco", Font.PLAIN, 16);
 
-		int powerSpawn = new Random().nextInt(4);
+		int powerSpawn1 = new Random().nextInt(25);
+		int powerSpawn2 = new Random().nextInt(25) + 25;
 
 		for (int i = 1; i < 40; i++) {
-			int randXE = new Random().nextInt(175);
-			int randXO = new Random().nextInt(175) + 250;
+			int randXE = new Random().nextInt(120);
+			int randXO = new Random().nextInt(120) + 250;
 			if (i == 1) {
 				randX2 = randXO;
 				om.addObjectA(new Asteroid(randXO, 200, 175, 50));
@@ -70,15 +71,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			} else {
 				om.addObjectA(new Asteroid(randXO, i * 500 - 300, 175, 50));
 			}
-			if (i == 3) {
+			if (powerSpawn1 == i && i % 2 == 0) {
+				om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+			}
+			if (powerSpawn1 == i && i % 2 != 0) {
 				om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
 			}
-			// if (powerSpawn == i && i % 2 == 0) {
-			// om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
-			// }
-			// if (powerSpawn == i && i % 2 != 0) {
-			// om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
-			// }
+			if (powerSpawn2 == i && i % 2 == 0) {
+				om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+			}
+			if (powerSpawn2 == i && i % 2 != 0) {
+				om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+			}
 		}
 
 		spaceMan = new SpaceMan(randX2 + 68, 200 - 60, 39, 60);
@@ -189,16 +193,23 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	void updateGameState() {
 		om.update();
-
+		om.purgeObjects();
 		om.checkCollision();
+
+		// System.out.println(spaceMan.jumpCounter);
 		if (spaceMan.isAlive == false) {
 			currentState = END_STATE;
 
+			System.out.println("dead");
+
 			om.reset();
 
-			for (int i = 1; i < 50; i++) {
-				int randXE = new Random().nextInt(125);
-				int randXO = new Random().nextInt(125) + 300;
+			int powerSpawn1 = new Random().nextInt(25);
+			int powerSpawn2 = new Random().nextInt(25) + 25;
+
+			for (int i = 1; i < 40; i++) {
+				int randXE = new Random().nextInt(120);
+				int randXO = new Random().nextInt(120) + 250;
 				if (i == 1) {
 					randX2 = randXO;
 					om.addObjectA(new Asteroid(randXO, 200, 175, 50));
@@ -207,15 +218,29 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				} else {
 					om.addObjectA(new Asteroid(randXO, i * 500 - 300, 175, 50));
 				}
+				if (powerSpawn1 == i && i % 2 == 0) {
+					om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+				}
+				if (powerSpawn1 == i && i % 2 != 0) {
+					om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+				}
+				if (powerSpawn2 == i && i % 2 == 0) {
+					om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+				}
+				if (powerSpawn2 == i && i % 2 != 0) {
+					om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+				}
+
 			}
 
+			GamePanel.score = 0;
+
 			spaceMan = new SpaceMan(randX2 + 68, 200 - 60, 39, 60);
+			System.out.println(spaceMan.isAlive);
 
 			om.setSpaceMan(spaceMan);
 
 		}
-
-		om.getScore();
 	}
 
 	void updateEndState() {
@@ -261,11 +286,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 		}
 
-		om.draw(g, camera);
-
 		g.setColor(Color.YELLOW);
 		g.setFont(textFont);
 		g.drawString("Score: " + score, 225, 75);
+
+		om.draw(g, camera);
 	}
 
 	void drawEndState(Graphics g) {
@@ -332,12 +357,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		if (currentState == GAME_STATE) {
 			if (spaceMan.toggle == 0) {
 				spaceMan.startClick = true;
-				//System.out.println(spaceMan.toggle);
+				// System.out.println(spaceMan.toggle);
 			}
 			if (spaceMan.toggle == 1) {
 				spaceMan.startClick = false;
 				spaceMan.jump();
-				//System.out.println(spaceMan.toggle);
+				// System.out.println(spaceMan.toggle);
 			}
 		}
 	}

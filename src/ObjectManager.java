@@ -45,7 +45,7 @@ public class ObjectManager {
 		camera.draw(g, asteroidObjects, powerUpObjects, spaceMan);
 	}
 
-	private void purgeObjects() {
+	public void purgeObjects() {
 		for (int i = 0; i < asteroidObjects.size(); i++) {
 			if (!asteroidObjects.get(i).isAlive) {
 				asteroidObjects.remove(i);
@@ -80,15 +80,8 @@ public class ObjectManager {
 		}
 	}
 
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int s) {
-		score = s;
-	}
-
 	public void reset() {
+		powerUpObjects.clear();
 		asteroidObjects.clear();
 	}
 }
