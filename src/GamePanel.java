@@ -57,8 +57,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		textFont = new Font("Monaco", Font.PLAIN, 24);
 		insFont = new Font("Monaco", Font.PLAIN, 16);
 
-		int powerSpawn1 = new Random().nextInt(25);
-		int powerSpawn2 = new Random().nextInt(25) + 25;
+		int powerSpawn1 = new Random().nextInt(10);
+		int powerSpawn2 = new Random().nextInt(10) + 10;
+		int powerSpawn3 = new Random().nextInt(10) + 20;
+		int powerSpawn4 = new Random().nextInt(10) + 30;
+		int powerSpawn5 = new Random().nextInt(10) + 40;
 
 		for (int i = 1; i < 40; i++) {
 			int randXE = new Random().nextInt(120);
@@ -81,6 +84,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
 			}
 			if (powerSpawn2 == i && i % 2 != 0) {
+				om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+			}
+			if (powerSpawn3 == i && i % 2 == 0) {
+				om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+			}
+			if (powerSpawn3 == i && i % 2 != 0) {
+				om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+			}
+			if (powerSpawn4 == i && i % 2 == 0) {
+				om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+			}
+			if (powerSpawn4 == i && i % 2 != 0) {
+				om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+			}
+			if (powerSpawn5 == i && i % 2 == 0) {
+				om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+			}
+			if (powerSpawn5 == i && i % 2 != 0) {
 				om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
 			}
 		}
@@ -193,17 +214,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 	void updateGameState() {
 		om.update();
-		
+
 		om.checkCollision();
-		
+
 		if (spaceMan.isAlive == false) {
 			om.purgeObjects();
 			currentState = END_STATE;
 
 			om.reset();
 
-			int powerSpawn1 = new Random().nextInt(25);
-			int powerSpawn2 = new Random().nextInt(25) + 25;
+			int powerSpawn1 = new Random().nextInt(10);
+			int powerSpawn2 = new Random().nextInt(10) + 10;
+			int powerSpawn3 = new Random().nextInt(10) + 20;
+			int powerSpawn4 = new Random().nextInt(10) + 30;
+			int powerSpawn5 = new Random().nextInt(10) + 40;
 
 			for (int i = 1; i < 40; i++) {
 				int randXE = new Random().nextInt(120);
@@ -228,14 +252,31 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				if (powerSpawn2 == i && i % 2 != 0) {
 					om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
 				}
-
+				if (powerSpawn3 == i && i % 2 == 0) {
+					om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+				}
+				if (powerSpawn3 == i && i % 2 != 0) {
+					om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+				}
+				if (powerSpawn4 == i && i % 2 == 0) {
+					om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+				}
+				if (powerSpawn4 == i && i % 2 != 0) {
+					om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+				}
+				if (powerSpawn5 == i && i % 2 == 0) {
+					om.addObjectP(new PowerUp(randXE + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+				}
+				if (powerSpawn5 == i && i % 2 != 0) {
+					om.addObjectP(new PowerUp(randXO + 175 / 2 - 25 / 2, i * 500 - 300 - 25, 25, 25));
+				}
 			}
-			
+
 			spaceMan.jumpCounter = 0;
 
 			spaceMan = new SpaceMan(randX2 + 68, 200 - 60, 39, 60);
 			System.out.println(spaceMan.isAlive);
-			
+
 			Camera.yOffset = 0;
 
 			om.setSpaceMan(spaceMan);
