@@ -11,4 +11,4 @@ INSTRUCTIONS
 - Collect mushrooms to double your score
 
 
-[Click here to play the game.] (AsteroidJump.jar)
+[Click here to play the game.](AsteroidJump.jar)
