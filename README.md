@@ -1,6 +1,6 @@
 # ASTEROID JUMP
-Made by Ollie Pai
-Summer 2017
+- Made by Ollie Pai
+- Summer 2017
 
 INSTRUCTIONS
 - Jump down to as many asteroids as you can
