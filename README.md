@@ -1,5 +1,5 @@
 # ASTEROID JUMP
-Ollie Pai
+Made by Ollie Pai
 Summer 2017
 
 INSTRUCTIONS
@@ -11,4 +11,4 @@ INSTRUCTIONS
 - Collect mushrooms to double your score
 
 
-Click here to play the game. [here](AsteroidJump.jar)
+[Click here to play the game.] (AsteroidJump.jar)
